@@ -1,0 +1,56 @@
+[
+  {
+    "user_id": 1,
+    "username": "TestUser1",
+    "email": "user1@test.com",
+    "password_hash": "hashed_password_1",
+    "level": 1,
+    "avatar_stage": "Beginner",
+    "created_at": "2026-04-21T10:00:00"
+  },
+  {
+    "user_id": 2,
+    "username": "TestUser2",
+    "email": "user2@test.com",
+    "password_hash": "hashed_password_2",
+    "level": 2,
+    "avatar_stage": "Growing",
+    "created_at": "2026-04-21T10:05:00"
+  },
+  {
+    "user_id": 3,
+    "username": "TestUser3",
+    "email": "user3@test.com",
+    "password_hash": "hashed_password_3",
+    "level": 3,
+    "avatar_stage": "Intermediate",
+    "created_at": "2026-04-21T10:10:00"
+  },
+  {
+    "user_id": 4,
+    "username": "TestUser4",
+    "email": "user4@test.com",
+    "password_hash": "hashed_password_4",
+    "level": 1,
+    "avatar_stage": "Beginner",
+    "created_at": "2026-04-21T10:15:00"
+  },
+  {
+    "user_id": 5,
+    "username": "TestUser5",
+    "email": "user5@test.com",
+    "password_hash": "hashed_password_5",
+    "level": 4,
+    "avatar_stage": "Advanced",
+    "created_at": "2026-04-21T10:20:00"
+  },
+  {
+    "user_id": 6,
+    "username": "TanushreeTest",
+    "email": "tanushree@test.com",
+    "password_hash": "$2b$12$wBZD9S.0AiteJYef3neHCOlPffqQpHS9o2GgpKipd2WXHIayg06DS",
+    "level": 1,
+    "avatar_stage": "Beginner",
+    "created_at": "2026-04-21T23:23:32.633478"
+  }
+]

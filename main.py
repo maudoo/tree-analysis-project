@@ -9,6 +9,9 @@ import uuid
 
 app = FastAPI()
 
+from App_auth.routes.auth import router as auth_router
+app.include_router(auth_router)
+
 DB_CONFIG = {
     "host": "localhost",
     "dbname": "alphawood_db",
