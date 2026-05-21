@@ -6,7 +6,7 @@ DB_CONFIG = {
     "host": "localhost",
     "dbname": "alphawood_db",
     "user": "postgres",
-    "password": "Yash@1902",
+    "password": "admin",
     "port": 5432
 }
 

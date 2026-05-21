@@ -16,7 +16,7 @@ DB_CONFIG = {
     "host": "localhost",
     "dbname": "alphawood_db",
     "user": "postgres",
-    "password": "Yash@1902",
+    "password": "admin",
     "port": 5432,
 }
 
@@ -46,8 +46,8 @@ def haversine_m(lat1, lon1, lat2, lon2):
     dlambda = math.radians(lon2 - lon1)
 
     a = (
-        math.sin(dphi / 2) ** 2
-        + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2) ** 2
+            math.sin(dphi / 2) ** 2
+            + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2) ** 2
     )
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
     return R * c
@@ -88,11 +88,11 @@ def random_tree():
     cur = conn.cursor()
     try:
         cur.execute("""
-            SELECT id, tree_id, common_name, scientific_name, latitude, longitude
-            FROM trees
-            ORDER BY RANDOM()
-            LIMIT 1;
-        """)
+                    SELECT id, tree_id, common_name, scientific_name, latitude, longitude
+                    FROM trees
+                    ORDER BY RANDOM()
+                        LIMIT 1;
+                    """)
         row = cur.fetchone()
         if row is None:
             raise HTTPException(status_code=404, detail="No trees found. Load data into trees table.")
@@ -116,11 +116,11 @@ def get_missions():
     cur = conn.cursor()
     try:
         cur.execute("""
-            SELECT mission_id, title, points, tree_id, hint
-            FROM missions
-            WHERE is_active = TRUE
-            ORDER BY mission_id;
-        """)
+                    SELECT mission_id, title, points, tree_id, hint
+                    FROM missions
+                    WHERE is_active = TRUE
+                    ORDER BY mission_id;
+                    """)
         rows = cur.fetchall()
 
         return [
@@ -161,10 +161,10 @@ def complete_mission(data: MissionComplete):
 
         # 1) mission must exist and be active
         cur.execute("""
-            SELECT points, tree_id
-            FROM missions
-            WHERE mission_id = %s AND is_active = TRUE;
-        """, (data.mission_id,))
+                    SELECT points, tree_id
+                    FROM missions
+                    WHERE mission_id = %s AND is_active = TRUE;
+                    """, (data.mission_id,))
         m = cur.fetchone()
         if not m:
             raise HTTPException(status_code=404, detail="Mission not found or inactive")
@@ -192,16 +192,16 @@ def complete_mission(data: MissionComplete):
 
         # 3) Insert completion (unique constraint prevents duplicates)
         cur.execute("""
-            INSERT INTO mission_log (player_id, mission_id, tree_id, points_earned)
-            VALUES (%s, %s, %s, %s);
-        """, (data.player_id, data.mission_id, data.tree_id, mission_points))
+                    INSERT INTO mission_log (player_id, mission_id, tree_id, points_earned)
+                    VALUES (%s, %s, %s, %s);
+                    """, (data.player_id, data.mission_id, data.tree_id, mission_points))
 
         # 4) Update player total_points
         cur.execute("""
-            UPDATE players
-            SET total_points = total_points + %s
-            WHERE player_id = %s;
-        """, (mission_points, data.player_id))
+                    UPDATE players
+                    SET total_points = total_points + %s
+                    WHERE player_id = %s;
+                    """, (mission_points, data.player_id))
 
         conn.commit()
         return {"status": "success", "message": "Mission completed", "points_awarded": mission_points}
@@ -223,11 +223,11 @@ def complete_mission(data: MissionComplete):
 # -----------------------
 @app.post("/trees/{tree_id}/photos")
 def upload_tree_photo(
-    tree_id: str,
-    player_id: int = Form(...),
-    user_lat: float = Form(...),
-    user_lon: float = Form(...),
-    file: UploadFile = File(...)
+        tree_id: str,
+        player_id: int = Form(...),
+        user_lat: float = Form(...),
+        user_lon: float = Form(...),
+        file: UploadFile = File(...)
 ):
     MAX_DISTANCE_M = 40
 
@@ -262,10 +262,10 @@ def upload_tree_photo(
             out.write(file.file.read())
 
         cur.execute("""
-            INSERT INTO tree_photos (player_id, tree_id, file_path, photo_lat, photo_lon, distance_meters, is_verified)
-            VALUES (%s, %s, %s, %s, %s, %s, TRUE)
-            RETURNING photo_id;
-        """, (player_id, tree_id, str(save_path), user_lat, user_lon, float(dist)))
+                    INSERT INTO tree_photos (player_id, tree_id, file_path, photo_lat, photo_lon, distance_meters, is_verified)
+                    VALUES (%s, %s, %s, %s, %s, %s, TRUE)
+                        RETURNING photo_id;
+                    """, (player_id, tree_id, str(save_path), user_lat, user_lon, float(dist)))
 
         photo_id = cur.fetchone()[0]
         conn.commit()
@@ -291,11 +291,11 @@ def list_tree_photos(tree_id: str):
     cur = conn.cursor()
     try:
         cur.execute("""
-            SELECT photo_id, player_id, file_path, photo_lat, photo_lon, distance_meters, is_verified, uploaded_at
-            FROM tree_photos
-            WHERE tree_id = %s
-            ORDER BY uploaded_at DESC;
-        """, (tree_id,))
+                    SELECT photo_id, player_id, file_path, photo_lat, photo_lon, distance_meters, is_verified, uploaded_at
+                    FROM tree_photos
+                    WHERE tree_id = %s
+                    ORDER BY uploaded_at DESC;
+                    """, (tree_id,))
         rows = cur.fetchall()
 
         result = []
